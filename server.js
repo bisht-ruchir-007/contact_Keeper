@@ -1,10 +1,18 @@
 const express = require('express');
-const app = express();
 const PORT = process.env.PORT || 5000;
+const connectDB = require('./config/db');
+
+const app = express();
+
+// Connect Database
+connectDB();
 
 app.get('/', (req, res) => {
 	res.json({ msg: 'Welcome to Contact keeper API' });
 });
+
+// Init Middleware -- Body Parser
+app.use(express.json({ extended: false }));
 
 //Define Routers
 app.use('/api/users', require('./routes/users'));
