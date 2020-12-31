@@ -6,6 +6,7 @@ const auth = require('../middleware/auth');
 // model
 const User = require('../models/User');
 const Contact = require('../models/Contact');
+const c = require('config');
 
 // @route  GET api/contacts
 // @desc   get all users contacts
@@ -63,17 +64,63 @@ router.post('/', [ auth, [ check('name', 'Name is required').not().isEmpty() ] ]
 // @route  PUT api/contacts/:id
 // @desc   Update contact
 // @access Private
+router.put('/:id', auth, async (req, res) => {
+	const { name, email, phone, type } = req.body;
 
-router.put('/:id', (req, res) => {
-	res.send('update contact');
+	// Build contact object
+	const contactField = {};
+	if (name) contactField.name = name;
+	if (email) contactField.email = email;
+	if (phone) contactField.phone = phone;
+	if (type) contactField.type = type;
+
+	try {
+		let contact = await Contact.findById(req.params.id);
+		if (!contact)
+			return res.status(404).json({
+				msg: 'Contact not found'
+			});
+
+		// make sure user owns the contact
+		if (contact.user.toString() !== req.user.id) {
+			return res.status(401).json({
+				msg: 'Not Authorized'
+			});
+		}
+
+		contact = await Contact.findByIdAndUpdate(req.params.id, { $set: contactField }, { new: true });
+		res.json(contact);
+	} catch (err) {
+		console.log(err.message);
+		res.status(500).send('Server Error');
+	}
 });
 
 // @route  DELETE api/contacts/:id
 // @desc   Delete a contact
 // @access Private
 
-router.delete('/:id', (req, res) => {
-	res.send('delete contact');
+router.delete('/:id', auth, async (req, res) => {
+	try {
+		let contact = await Contact.findById(req.params.id);
+		if (!contact)
+			return res.status(404).json({
+				msg: 'Contact not found'
+			});
+
+		// make sure user owns the contact
+		if (contact.user.toString() !== req.user.id) {
+			return res.status(401).json({
+				msg: 'Not Authorized'
+			});
+		}
+
+		await Contact.findByIdAndRemove(req.params.id);
+		res.json({ msg: 'Contact removed !!' });
+	} catch (err) {
+		console.log(err.message);
+		res.status(500).send('Server Error');
+	}
 });
 
 module.exports = router;
