@@ -25,12 +25,12 @@ const ContactItem = ({ contact }) => {
 			<ul className='List'>
 				{email && (
 					<li>
-						<i class='far fa-envelope' /> {email}
+						<i className='far fa-envelope' /> {email}
 					</li>
 				)}
 				{phone && (
 					<li>
-						<i class='fas fa-phone' /> {phone}
+						<i className='fas fa-phone' /> {phone}
 					</li>
 				)}
 			</ul>
