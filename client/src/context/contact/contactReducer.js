@@ -23,10 +23,19 @@ export default (state, action) => {
 				contacts: state.contacts.map((contact) => (contact.id === action.payload.id ? action.payload : contact))
 			};
 		case DELETE_CONTACT:
-			return {
-				...state,
-				contacts: state.contacts.filter((contact) => contact.id !== action.payload)
-			};
+			if (state.filtered !== null) {
+				return {
+					...state,
+					contacts: state.contacts.filter((contact) => contact.id !== action.payload),
+					filtered: state.filtered.filter((contact) => contact.id !== action.payload)
+				};
+			} else {
+				return {
+					...state,
+					contacts: state.contacts.filter((contact) => contact.id !== action.payload)
+				};
+			}
+
 		case SET_CURRENT:
 			return {
 				...state,
@@ -36,6 +45,20 @@ export default (state, action) => {
 			return {
 				...state,
 				current: null
+			};
+		case FILTER_CONTACTS:
+			return {
+				...state,
+				filtered: state.contacts.filter((contact) => {
+					// gi - Global case inSensitive
+					const regex = new RegExp(`${action.payload}`, 'gi');
+					return contact.name.match(regex) || contact.email.match(regex);
+				})
+			};
+		case CLEAR_FILTER:
+			return {
+				...state,
+				filtered: null
 			};
 		default:
 			return state;

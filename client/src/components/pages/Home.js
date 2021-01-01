@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import Contact from '../contacts/Contacts';
 import ContactForm from '../contacts/ContactForm';
-
+import ContactFilter from '../contacts/ContentFilter';
 const Home = () => {
 	return (
 		<Fragment>
@@ -13,6 +13,7 @@ const Home = () => {
 					<ContactForm />
 				</div>
 				<div>
+					<ContactFilter />
 					<Contact />
 				</div>
 			</div>
