@@ -6,7 +6,7 @@ import AuthContext from '../../context/auth/authContext';
 
 const Home = () => {
 	const authContext = useContext(AuthContext);
-	const { loadUser } = authContext;
+	const { loadUser, user } = authContext;
 	useEffect(() => {
 		loadUser();
 		// eslint-disable-next-line
@@ -15,7 +15,12 @@ const Home = () => {
 	return (
 		<Fragment>
 			<center>
-				<h2>Welcome to the Contact Keeper App</h2>
+				<h2>
+					Welcome {'   '}
+					<strong>
+						<span className='text-primary'>{user && user.name}</span>
+					</strong>
+				</h2>
 			</center>
 			<div className='grid-2 p'>
 				<div>

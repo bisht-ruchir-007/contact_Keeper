@@ -9,9 +9,9 @@ import {
 	CLEAR_CURRENT,
 	UPDATE_CURRENT,
 	FILTER_CONTACTS,
-	CLEAR_FILTER,
-	SET_ALERT,
-	REMOVE_ALERT
+	CLEAR_FILTER
+	// SET_ALERT,
+	// REMOVE_ALERT
 } from '../types';
 
 const ContactState = (props) => {
