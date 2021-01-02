@@ -75,6 +75,29 @@ const AuthState = (props) => {
 		}
 	};
 	// Login User
+	const login = async (formData) => {
+		const config = {
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		};
+		// not need to add localhost:5000 since its added in Proxy filed
+
+		try {
+			const res = await axios.post('/api/auth', formData, config);
+			// response will be the token
+			dispach({
+				type: LOGIN_SUCCESS,
+				payload: res.data
+			});
+			loadUser();
+		} catch (err) {
+			dispach({
+				type: LOGIN_FAIL,
+				payload: err.response.data.msg
+			});
+		}
+	};
 
 	// Logout User
 
@@ -94,6 +117,7 @@ const AuthState = (props) => {
 				error: state.error,
 				register,
 				loadUser,
+				login,
 				clearErrors
 			}}
 		>
