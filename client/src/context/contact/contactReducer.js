@@ -24,7 +24,7 @@ export default (state, action) => {
 		case ADD_CONTACT:
 			return {
 				...state,
-				contacts: [ ...state.contacts, action.payload ],
+				contacts: [ action.payload, ...state.contacts ],
 				loading: false
 			};
 		case UPDATE_CURRENT:
@@ -39,13 +39,13 @@ export default (state, action) => {
 			if (state.filtered !== null) {
 				return {
 					...state,
-					contacts: state.contacts.filter((contact) => contact.id !== action.payload),
-					filtered: state.filtered.filter((contact) => contact.id !== action.payload)
+					contacts: state.contacts.filter((contact) => contact._id !== action.payload),
+					filtered: state.filtered.filter((contact) => contact._id !== action.payload)
 				};
 			} else {
 				return {
 					...state,
-					contacts: state.contacts.filter((contact) => contact.id !== action.payload),
+					contacts: state.contacts.filter((contact) => contact._id !== action.payload),
 					loading: false
 				};
 			}

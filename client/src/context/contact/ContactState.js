@@ -52,14 +52,33 @@ const ContactState = (props) => {
 		try {
 			// no need to send token id as its stored in Global state
 			const res = await axios.post('/api/contacts', contact, config);
-			dispach({ type: ADD_CONTACT, payload: res.data });
+			dispach({
+				type: ADD_CONTACT,
+				payload: res.data
+			});
 		} catch (err) {
-			dispach({ type: CONTACT_ERROR, payload: err.response.msg });
+			dispach({
+				type: CONTACT_ERROR,
+				payload: err.response.msg
+			});
 		}
 	};
 	// Delte contact
-	const deleteContact = (id) => {
-		dispach({ type: DELETE_CONTACT, payload: id });
+	const deleteContact = async (id) => {
+		try {
+			// no need to send token id as its stored in Global state
+			await axios.delete(`/api/contacts/${id}`);
+
+			dispach({
+				type: DELETE_CONTACT,
+				payload: id
+			});
+		} catch (err) {
+			dispach({
+				type: CONTACT_ERROR,
+				payload: err.response.msg
+			});
+		}
 	};
 	// Set current contact
 	const setCurrent = (contact) => {
