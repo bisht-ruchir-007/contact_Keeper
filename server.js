@@ -1,5 +1,4 @@
 const express = require('express');
-const PORT = process.env.PORT || 5000;
 const connectDB = require('./config/db');
 const path = require('path');
 const app = express();
@@ -10,9 +9,6 @@ connectDB();
 // Init Middleware -- Body Parser
 app.use(express.json({ extended: false }));
 
-app.get('/', (req, res) => {
-	res.json({ msg: 'Welcome to the COntactKeeper ...' });
-});
 //Define Routers
 app.use('/api/users', require('./routes/users'));
 app.use('/api/auth', require('./routes/auth'));
@@ -26,6 +22,8 @@ if (process.env.NODE_ENV === 'production') {
 		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
 	});
 }
+
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
 	console.log(`Server started at Port :  ${PORT}`);
