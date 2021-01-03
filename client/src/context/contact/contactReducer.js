@@ -28,13 +28,28 @@ export default (state, action) => {
 				loading: false
 			};
 		case UPDATE_CURRENT:
-			return {
-				...state,
-				contacts: state.contacts.map(
-					(contact) => (contact.id === action.payload.id ? action.payload : contact)
-				),
-				loading: false
-			};
+			if (state.filtered !== null) {
+				return {
+					...state,
+					contacts: state.contacts.map(
+						(contact) => (contact._id === action.payload._id ? action.payload : contact)
+					),
+					filtered: state.filtered.map(
+						(contact) => (contact._id === action.payload._id ? action.payload : contact)
+					),
+					loading: false
+				};
+			} else {
+				return {
+					...state,
+					contacts: state.contacts.map(
+						(contact) => (contact._id === action.payload._id ? action.payload : contact)
+					),
+
+					loading: false
+				};
+			}
+
 		case DELETE_CONTACT:
 			if (state.filtered !== null) {
 				return {
