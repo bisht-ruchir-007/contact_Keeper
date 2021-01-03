@@ -10,6 +10,9 @@ connectDB();
 // Init Middleware -- Body Parser
 app.use(express.json({ extended: false }));
 
+app.get('/', (req, res) => {
+	res.json({ msg: 'Welcome to the COntactKeeper ...' });
+});
 //Define Routers
 app.use('/api/users', require('./routes/users'));
 app.use('/api/auth', require('./routes/auth'));
